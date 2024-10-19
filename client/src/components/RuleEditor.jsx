@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import TreeVisualizer from "./TreeVisualizer";
 
 const RuleEditor = () => {
   const [rule, setRule] = useState({
@@ -66,10 +67,12 @@ const RuleEditor = () => {
             </button>
           </form>
 
-          {/* Display AST Representation */}
           {astRepresentation && (
             <div className="mt-4">
-              <h4>AST Representation:</h4>
+              <h4>Rule Structure:</h4>
+              <TreeVisualizer ast={astRepresentation} />
+              <hr />
+              <h4>AST JSON:</h4>
               <pre className="bg-light p-3 rounded">
                 {JSON.stringify(astRepresentation, null, 2)}
               </pre>

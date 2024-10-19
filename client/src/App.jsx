@@ -6,6 +6,7 @@ import RuleEvaluator from "./components/RuleEvaluator";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import RuleCombiner from "./components/RuleCombiner";
 
 const Navbar = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -39,6 +40,11 @@ const Navbar = () => (
           <li className="nav-item">
             <Link to="/create" className="nav-link">
               Create Rule
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/combine" className="nav-link">
+              Combine Rules
             </Link>
           </li>
         </ul>
@@ -99,6 +105,7 @@ const App = () => {
             <Route path="/rules" element={<RuleManager mode="manage" />} />
             <Route path="/evaluate" element={<RuleEvaluator />} />
             <Route path="/create" element={<RuleEditor />} />
+            <Route path="/combine" element={<RuleCombiner />} />
           </Routes>
         </main>
         <ToastContainer />
