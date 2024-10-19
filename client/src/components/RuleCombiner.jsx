@@ -30,7 +30,7 @@ const RuleCombiner = () => {
         return;
       }
 
-      const response = await axios.post("${API_URL}/api/rules/combine", {
+      const response = await axios.post(`${API_URL}/api/rules/combine`, {
         ruleIds: selectedRules,
       });
 
