@@ -5,7 +5,7 @@
     "rewrites": [
       {
         "source": "/api/:path*",
-        "destination": "https://rule-engine-server-nekewi3li.vercel.app/api/:path*"
+        "destination": "https://rule-engine-server.vercel.app/api/:path*"
       }
     ]
   }
