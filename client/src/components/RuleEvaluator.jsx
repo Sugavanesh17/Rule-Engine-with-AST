@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import TreeVisualizer from "./TreeVisualizer";
 
 const RuleEvaluator = () => {
   const [rules, setRules] = useState([]);
@@ -12,20 +13,41 @@ const RuleEvaluator = () => {
     experience: "",
   });
   const [results, setResults] = useState(null);
+  const [evaluationHistory, setEvaluationHistory] = useState([]);
+
+  const testCases = [
+    {
+      age: 35,
+      department: "Sales",
+      salary: 60000,
+      experience: 3,
+    },
+    {
+      age: 24,
+      department: "Marketing",
+      salary: 55000,
+      experience: 2,
+    },
+    {
+      age: 28,
+      department: "Engineering",
+      salary: 45000,
+      experience: 4,
+    },
+  ];
 
   useEffect(() => {
-    const fetchRules = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/rules");
-        console.log("Fetched rules:", response.data);
-        setRules(response.data);
-      } catch (error) {
-        console.error("Error fetching rules:", error);
-        toast.error("Error fetching rules");
-      }
-    };
     fetchRules();
   }, []);
+
+  const fetchRules = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/rules");
+      setRules(response.data);
+    } catch (error) {
+      toast.error("Error fetching rules");
+    }
+  };
 
   const handleEvaluate = async (e) => {
     e.preventDefault();
@@ -38,9 +60,43 @@ const RuleEvaluator = () => {
         }
       );
       setResults(response.data.results);
+      setEvaluationHistory((prev) => [
+        ...prev,
+        { data: { ...data }, results: response.data.results },
+      ]);
     } catch (error) {
       toast.error(error.response?.data?.error || "Error evaluating rules");
     }
+  };
+
+  const runTestCase = async (testData) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/rules/evaluate",
+        {
+          data: testData,
+          ruleIds: selectedRules,
+        }
+      );
+      return response.data.results;
+    } catch (error) {
+      toast.error(`Error evaluating test case: ${error.message}`);
+    }
+  };
+
+  const runAllTests = async () => {
+    if (!selectedRules.length) {
+      toast.error("Please select rules to test");
+      return;
+    }
+
+    const allResults = [];
+    for (const testCase of testCases) {
+      const results = await runTestCase(testCase);
+      allResults.push({ testCase, results });
+    }
+    setResults(allResults.flatMap((r) => r.results));
+    setEvaluationHistory((prev) => [...prev, ...allResults]);
   };
 
   return (
@@ -122,10 +178,14 @@ const RuleEvaluator = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-success w-100">
+            <button type="submit" className="btn btn-success w-100 mb-3">
               Evaluate Rules
             </button>
           </form>
+
+          <button onClick={runAllTests} className="btn btn-primary w-100">
+            Run Test Cases
+          </button>
 
           {results && (
             <div className="mt-4">
@@ -156,6 +216,26 @@ const RuleEvaluator = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+          )}
+
+          {evaluationHistory.length > 0 && (
+            <div className="mt-4">
+              <h3>Evaluation History:</h3>
+              {evaluationHistory.map((entry, index) => (
+                <div key={index} className="card mb-2">
+                  <div className="card-body">
+                    <h6>Test Data:</h6>
+                    <pre>{JSON.stringify(entry.data, null, 2)}</pre>
+                    <h6>Results:</h6>
+                    {entry.results.map((result) => (
+                      <div key={result.ruleId}>
+                        {result.ruleName}: {result.result ? "Pass" : "Fail"}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>

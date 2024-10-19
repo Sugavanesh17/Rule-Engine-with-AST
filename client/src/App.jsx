@@ -27,19 +27,19 @@ const Navbar = () => (
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ms-auto">
-          <li className="nav-item">
+          {/*<li className="nav-item">
             <Link to="/rules" className="nav-link">
               Manage Rules
+            </Link>
+          </li>*/}
+          <li className="nav-item">
+            <Link to="/create" className="nav-link">
+              Create Rule
             </Link>
           </li>
           <li className="nav-item">
             <Link to="/evaluate" className="nav-link">
               Evaluate Rules
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/create" className="nav-link">
-              Create Rule
             </Link>
           </li>
           <li className="nav-item">
@@ -57,13 +57,24 @@ const Dashboard = () => (
   <div className="container mt-4">
     <h1 className="text-center mb-4">Rule Engine Dashboard</h1>
     <div className="row">
-      <div className="col-lg-4 mb-4">
+      {/*<div className="col-lg-4 mb-4">
         <div className="card shadow">
           <div className="card-body text-center">
             <h2 className="card-title">Active Rules</h2>
             <p className="card-text">View and manage your business rules.</p>
             <Link to="/rules" className="btn btn-success">
               Manage Rules →
+            </Link>
+          </div>
+        </div>
+      </div>*/}
+      <div className="col-lg-4 mb-4">
+        <div className="card shadow">
+          <div className="card-body text-center">
+            <h2 className="card-title">Rule Creation</h2>
+            <p className="card-text">Create new business rules.</p>
+            <Link to="/create" className="btn btn-success">
+              Create Rule →
             </Link>
           </div>
         </div>
@@ -82,10 +93,10 @@ const Dashboard = () => (
       <div className="col-lg-4 mb-4">
         <div className="card shadow">
           <div className="card-body text-center">
-            <h2 className="card-title">Create Rule</h2>
-            <p className="card-text">Create new business rules.</p>
-            <Link to="/create" className="btn btn-success">
-              Create Rule →
+            <h2 className="card-title">Rule Combining</h2>
+            <p className="card-text">Combine mutiple rules</p>
+            <Link to="/combine" className="btn btn-success">
+              Combine Rules →
             </Link>
           </div>
         </div>
