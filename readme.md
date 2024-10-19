@@ -31,7 +31,7 @@ https://zeotap-rule-engine.vercel.app/
 
 ```bash
     cd server
-    npm install cors dotenv express express-rate-limit      helmet mongoose nodemon --save-dev
+    npm install cors dotenv express express-rate-limit helmet mongoose nodemon --save-dev
 ```
 
 3. Run the client and server separately with the command:
