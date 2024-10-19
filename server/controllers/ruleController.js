@@ -45,6 +45,24 @@ const evaluateRule = async (req, res) => {
   }
 };
 
+const combineRules = async (req, res) => {
+  try {
+    const { ruleIds } = req.body;
+    const rules = await Rule.find({ _id: { $in: ruleIds }, isActive: true });
+
+    if (!rules.length) {
+      return res.status(404).json({ error: "No active rules found" });
+    }
+
+    const ruleStrings = rules.map((r) => r.ruleString);
+    const combinedAST = RuleEngine.combineRules(ruleStrings);
+
+    res.json({ combinedAST });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const updateRule = async (req, res) => {
   try {
     const { ruleString } = req.body;
@@ -79,4 +97,5 @@ module.exports = {
   createRule,
   evaluateRule,
   updateRule,
+  combineRules,
 };

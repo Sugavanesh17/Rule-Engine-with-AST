@@ -6,6 +6,7 @@ const {
   createRule,
   evaluateRule,
   updateRule,
+  combineRules,
 } = require("../controllers/ruleController");
 const validateRule = require("../middleware/validateRule");
 
@@ -21,6 +22,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/evaluate", evaluateRule);
+
+router.post("/combine", combineRules);
 
 router.put("/:id", validateRule, updateRule);
 

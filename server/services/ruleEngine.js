@@ -103,6 +103,18 @@ class RuleEngine {
     }
     return node.value;
   }
+
+  static combineRules(rules) {
+    if (!rules?.length) throw new Error("No rules provided");
+
+    const asts = rules.map((rule) => this.createRule(rule));
+    return asts.reduce((combined, current) => ({
+      type: "operator",
+      value: "OR",
+      left: combined,
+      right: current,
+    }));
+  }
 }
 
 module.exports = RuleEngine;
