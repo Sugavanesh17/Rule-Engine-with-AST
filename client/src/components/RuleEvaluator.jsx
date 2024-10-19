@@ -43,7 +43,7 @@ const RuleEvaluator = () => {
 
   const fetchRules = async () => {
     try {
-      const response = await axios.get("${API_URL}/api/rules");
+      const response = await axios.get(`${API_URL}/api/rules`);
       setRules(response.data);
     } catch (error) {
       toast.error("Error fetching rules");
@@ -53,7 +53,7 @@ const RuleEvaluator = () => {
   const handleEvaluate = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("${API_URL}/api/rules/evaluate", {
+      const response = await axios.post(`${API_URL}/api/rules/evaluate`, {
         data,
         ruleIds: selectedRules,
       });
@@ -69,7 +69,7 @@ const RuleEvaluator = () => {
 
   const runTestCase = async (testData) => {
     try {
-      const response = await axios.post("${API_URL}/api/rules/evaluate", {
+      const response = await axios.post(`${API_URL}/api/rules/evaluate`, {
         data: testData,
         ruleIds: selectedRules,
       });

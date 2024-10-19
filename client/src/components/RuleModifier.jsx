@@ -22,7 +22,7 @@ const RuleModifier = () => {
   }, []);
 
   const fetchRules = async () => {
-    const response = await axios.get("${API_URL}/api/rules");
+    const response = await axios.get(`${API_URL}/api/rules`);
     setRules(response.data);
   };
 

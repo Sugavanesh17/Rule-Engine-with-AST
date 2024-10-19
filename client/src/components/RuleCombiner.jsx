@@ -16,7 +16,7 @@ const RuleCombiner = () => {
 
   const fetchRules = async () => {
     try {
-      const response = await axios.get("${API_URL}/api/rules");
+      const response = await axios.get(`${API_URL}/api/rules`);
       setRules(response.data);
     } catch (error) {
       toast.error("Error fetching rules");
