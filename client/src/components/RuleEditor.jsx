@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import TreeVisualizer from "./TreeVisualizer";
+import { API_URL } from "../config/api";
 
 const RuleEditor = () => {
   const [rule, setRule] = useState({
@@ -13,10 +14,7 @@ const RuleEditor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/rules",
-        rule
-      );
+      const response = await axios.post("${API_URL}/api/rules", rule);
       console.log("AST Representation:", response.data.ast);
       setAstRepresentation(response.data.ast);
       toast.success("Rule created successfully!");

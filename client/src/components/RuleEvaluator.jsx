@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import TreeVisualizer from "./TreeVisualizer";
+import { API_URL } from "../config/api";
 
 const RuleEvaluator = () => {
   const [rules, setRules] = useState([]);
@@ -42,7 +43,7 @@ const RuleEvaluator = () => {
 
   const fetchRules = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/rules");
+      const response = await axios.get("${API_URL}/api/rules");
       setRules(response.data);
     } catch (error) {
       toast.error("Error fetching rules");
@@ -52,13 +53,10 @@ const RuleEvaluator = () => {
   const handleEvaluate = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/rules/evaluate",
-        {
-          data,
-          ruleIds: selectedRules,
-        }
-      );
+      const response = await axios.post("${API_URL}/api/rules/evaluate", {
+        data,
+        ruleIds: selectedRules,
+      });
       setResults(response.data.results);
       setEvaluationHistory((prev) => [
         ...prev,
@@ -71,13 +69,10 @@ const RuleEvaluator = () => {
 
   const runTestCase = async (testData) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/rules/evaluate",
-        {
-          data: testData,
-          ruleIds: selectedRules,
-        }
-      );
+      const response = await axios.post("${API_URL}/api/rules/evaluate", {
+        data: testData,
+        ruleIds: selectedRules,
+      });
       return response.data.results;
     } catch (error) {
       toast.error(`Error evaluating test case: ${error.message}`);

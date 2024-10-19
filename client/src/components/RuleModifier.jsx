@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import TreeVisualizer from "./TreeVisualizer";
+import { API_URL } from "../config/api";
 
 const RuleModifier = () => {
   const [rules, setRules] = useState([]);
@@ -21,7 +22,7 @@ const RuleModifier = () => {
   }, []);
 
   const fetchRules = async () => {
-    const response = await axios.get("http://localhost:5000/api/rules");
+    const response = await axios.get("${API_URL}/api/rules");
     setRules(response.data);
   };
 
@@ -43,7 +44,7 @@ const RuleModifier = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:5000/api/rules/${selectedRule._id}/modify`,
+        `${API_URL}/api/rules/${selectedRule._id}/modify`,
         {
           modifications: [
             {

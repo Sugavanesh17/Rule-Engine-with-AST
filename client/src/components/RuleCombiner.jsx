@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import TreeVisualizer from "./TreeVisualizer";
+import { API_URL } from "../config/api";
 
 const RuleCombiner = () => {
   const [rules, setRules] = useState([]);
@@ -15,7 +16,7 @@ const RuleCombiner = () => {
 
   const fetchRules = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/rules");
+      const response = await axios.get("${API_URL}/api/rules");
       setRules(response.data);
     } catch (error) {
       toast.error("Error fetching rules");
@@ -29,12 +30,9 @@ const RuleCombiner = () => {
         return;
       }
 
-      const response = await axios.post(
-        "http://localhost:5000/api/rules/combine",
-        {
-          ruleIds: selectedRules,
-        }
-      );
+      const response = await axios.post("${API_URL}/api/rules/combine", {
+        ruleIds: selectedRules,
+      });
 
       setCombinedAST(response.data.combinedAST);
       toast.success("Rules combined successfully");
