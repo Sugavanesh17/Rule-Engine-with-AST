@@ -13,7 +13,7 @@ const Navbar = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <div className="container-fluid">
       <Link to="/" className="navbar-brand">
-        Rule Engine
+        RuleEngine
       </Link>
       <button
         className="navbar-toggler"
@@ -28,11 +28,6 @@ const Navbar = () => (
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ms-auto">
-          {/*<li className="nav-item">
-            <Link to="/rules" className="nav-link">
-              Manage Rules
-            </Link>
-          </li>*/}
           <li className="nav-item">
             <Link to="/create" className="nav-link">
               Create Rule
@@ -63,17 +58,6 @@ const Dashboard = () => (
   <div className="container mt-4">
     <h1 className="text-center mb-4">DashBoard</h1>
     <div className="row">
-      {/*<div className="col-lg-4 mb-4">
-        <div className="card shadow">
-          <div className="card-body text-center">
-            <h2 className="card-title">Active Rules</h2>
-            <p className="card-text">View and manage your business rules.</p>
-            <Link to="/rules" className="btn btn-success">
-              Manage Rules →
-            </Link>
-          </div>
-        </div>
-      </div>*/}
       <div className="col-lg-6 mb-4">
         <div className="card shadow">
           <div className="card-body text-center">

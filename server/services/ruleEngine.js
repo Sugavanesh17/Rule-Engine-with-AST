@@ -115,27 +115,47 @@ class RuleEngine {
     }));
   }
 
-  static modifyRule(ast, modifications) {
-    const modified = JSON.parse(JSON.stringify(ast)); // Deep clone
+  static astToString(ast) {
+    if (!ast) return "";
 
-    modifications.forEach((mod) => {
-      const { path, operation, value } = mod;
-      let current = modified;
+    if (ast.type === "operand") {
+      return ast.value;
+    }
 
-      // Navigate to target node
-      for (let i = 0; i < path.length - 1; i++) {
-        current = current[path[i]];
+    if (ast.type === "operator") {
+      const left = this.astToString(ast.left);
+      const right = this.astToString(ast.right);
+
+      if (["AND", "OR"].includes(ast.value)) {
+        return `(${left} ${ast.value} ${right})`;
       }
 
-      switch (operation) {
+      return `${left}${ast.value}${right}`;
+    }
+
+    return "";
+  }
+
+  static modifyRule(ast, modifications) {
+    const modified = JSON.parse(JSON.stringify(ast));
+
+    modifications.forEach((mod) => {
+      let current = modified;
+      const lastIndex = mod.path.length - 1;
+
+      for (let i = 0; i < lastIndex; i++) {
+        current = current[mod.path[i]];
+      }
+
+      switch (mod.operation) {
         case "update":
-          current[path[path.length - 1]] = value;
+          current[mod.path[lastIndex]] = mod.value;
           break;
         case "delete":
-          delete current[path[path.length - 1]];
+          delete current[mod.path[lastIndex]];
           break;
         case "add":
-          current[path[path.length - 1]] = value;
+          current[mod.path[lastIndex]] = mod.value;
           break;
       }
     });

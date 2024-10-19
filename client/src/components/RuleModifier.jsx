@@ -1,4 +1,4 @@
-// components/RuleModifier.jsx
+// RuleModifier.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -8,9 +8,12 @@ const RuleModifier = () => {
   const [rules, setRules] = useState([]);
   const [selectedRule, setSelectedRule] = useState(null);
   const [modifications, setModifications] = useState({
-    operator: "",
-    value: "",
     path: [],
+    operation: "update",
+    nodeType: "operator",
+    operator: "",
+    operandValue: "",
+    attribute: "",
   });
 
   useEffect(() => {
@@ -24,25 +27,36 @@ const RuleModifier = () => {
 
   const handleModify = async () => {
     try {
+      let modValue;
+      if (modifications.nodeType === "operator") {
+        modValue = {
+          type: "operator",
+          value: modifications.operator,
+          left: selectedRule.ast.left,
+          right: selectedRule.ast.right,
+        };
+      } else {
+        modValue = {
+          type: "operand",
+          value: modifications.operandValue || modifications.attribute,
+        };
+      }
+
       const response = await axios.put(
         `http://localhost:5000/api/rules/${selectedRule._id}/modify`,
         {
           modifications: [
             {
               path: modifications.path,
-              operation: "update",
-              value: {
-                type: "operator",
-                value: modifications.operator,
-                left: selectedRule.ast.left,
-                right: selectedRule.ast.right,
-              },
+              operation: modifications.operation,
+              value: modValue,
             },
           ],
         }
       );
-      toast.success("Rule modified successfully");
+
       setSelectedRule(response.data);
+      toast.success("Rule modified successfully");
     } catch (error) {
       toast.error(error.response?.data?.error);
     }
@@ -71,32 +85,110 @@ const RuleModifier = () => {
           {selectedRule && (
             <>
               <div className="mb-3">
-                <label className="form-label">Modify Operator</label>
+                <label className="form-label">Modification Type</label>
                 <select
                   className="form-select"
-                  value={modifications.operator}
+                  value={modifications.nodeType}
                   onChange={(e) =>
                     setModifications({
                       ...modifications,
-                      operator: e.target.value,
+                      nodeType: e.target.value,
                     })
                   }
                 >
-                  <option value="">Select Operator</option>
-                  <option value="AND">AND</option>
-                  <option value="OR">OR</option>
-                  <option value=">">{">"}</option>
-                  <option value="<">{"<"}</option>
-                  <option value="=">=</option>
+                  <option value="operator">Operator</option>
+                  <option value="operand">Operand</option>
                 </select>
               </div>
 
-              <button className="btn btn-primary w-100" onClick={handleModify}>
+              {modifications.nodeType === "operator" ? (
+                <div className="mb-3">
+                  <label className="form-label">New Operator</label>
+                  <select
+                    className="form-select"
+                    value={modifications.operator}
+                    onChange={(e) =>
+                      setModifications({
+                        ...modifications,
+                        operator: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Select Operator</option>
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                    <option value=">">{">"}</option>
+                    <option value="<">{"<"}</option>
+                    <option value="=">=</option>
+                    <option value=">=">{">="}</option>
+                    <option value="<=">{"<="}</option>
+                  </select>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-3">
+                    <label className="form-label">Attribute</label>
+                    <select
+                      className="form-select"
+                      value={modifications.attribute}
+                      onChange={(e) =>
+                        setModifications({
+                          ...modifications,
+                          attribute: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">Select Attribute</option>
+                      <option value="age">Age</option>
+                      <option value="department">Department</option>
+                      <option value="salary">Salary</option>
+                      <option value="experience">Experience</option>
+                    </select>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Value</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={modifications.operandValue}
+                      onChange={(e) =>
+                        setModifications({
+                          ...modifications,
+                          operandValue: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="mb-3">
+                <label className="form-label">Operation</label>
+                <select
+                  className="form-select"
+                  value={modifications.operation}
+                  onChange={(e) =>
+                    setModifications({
+                      ...modifications,
+                      operation: e.target.value,
+                    })
+                  }
+                >
+                  <option value="update">Update</option>
+                  <option value="delete">Delete</option>
+                  <option value="add">Add</option>
+                </select>
+              </div>
+
+              <button
+                className="btn btn-primary w-100 mb-3"
+                onClick={handleModify}
+              >
                 Modify Rule
               </button>
 
               <div className="mt-4">
-                <h4>Current AST:</h4>
+                <h4>Current Rule Structure:</h4>
                 <TreeVisualizer ast={selectedRule.ast} />
               </div>
             </>

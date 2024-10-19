@@ -112,7 +112,13 @@ const modifyRule = async (req, res) => {
     });
 
     // Apply modifications
-    rule.ast = RuleEngine.modifyRule(rule.ast, modifications);
+    const modifiedAst = RuleEngine.modifyRule(rule.ast, modifications);
+
+    // Regenerate rule string from AST
+    const newRuleString = RuleEngine.astToString(modifiedAst);
+
+    rule.ast = modifiedAst;
+    rule.ruleString = newRuleString;
     rule.version += 1;
     rule.updatedAt = new Date();
 
