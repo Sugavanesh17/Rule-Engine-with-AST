@@ -93,9 +93,40 @@ const updateRule = async (req, res) => {
   }
 };
 
+const modifyRule = async (req, res) => {
+  try {
+    const { ruleId } = req.params;
+    const { modifications } = req.body;
+
+    const rule = await Rule.findById(ruleId);
+    if (!rule) {
+      return res.status(404).json({ error: "Rule not found" });
+    }
+
+    // Store current version
+    rule.previousVersions.push({
+      ruleString: rule.ruleString,
+      ast: rule.ast,
+      version: rule.version,
+      timestamp: new Date(),
+    });
+
+    // Apply modifications
+    rule.ast = RuleEngine.modifyRule(rule.ast, modifications);
+    rule.version += 1;
+    rule.updatedAt = new Date();
+
+    await rule.save();
+    res.json(rule);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createRule,
   evaluateRule,
   updateRule,
   combineRules,
+  modifyRule,
 };

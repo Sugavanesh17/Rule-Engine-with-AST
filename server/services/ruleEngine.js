@@ -1,4 +1,3 @@
-// services/ruleEngine.js
 class RuleEngine {
   static createRule(ruleString) {
     try {
@@ -114,6 +113,34 @@ class RuleEngine {
       left: combined,
       right: current,
     }));
+  }
+
+  static modifyRule(ast, modifications) {
+    const modified = JSON.parse(JSON.stringify(ast)); // Deep clone
+
+    modifications.forEach((mod) => {
+      const { path, operation, value } = mod;
+      let current = modified;
+
+      // Navigate to target node
+      for (let i = 0; i < path.length - 1; i++) {
+        current = current[path[i]];
+      }
+
+      switch (operation) {
+        case "update":
+          current[path[path.length - 1]] = value;
+          break;
+        case "delete":
+          delete current[path[path.length - 1]];
+          break;
+        case "add":
+          current[path[path.length - 1]] = value;
+          break;
+      }
+    });
+
+    return modified;
   }
 }
 

@@ -7,6 +7,7 @@ const {
   evaluateRule,
   updateRule,
   combineRules,
+  modifyRule,
 } = require("../controllers/ruleController");
 const validateRule = require("../middleware/validateRule");
 
@@ -35,5 +36,7 @@ router.delete("/:id", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+router.put("/:ruleId/modify", modifyRule);
 
 module.exports = router;
