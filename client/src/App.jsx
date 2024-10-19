@@ -1,7 +1,8 @@
-// App.jsx
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import RuleManager from "./components/RuleManager";
+import RuleEditor from "./components/RuleEditor";
+import RuleEvaluator from "./components/RuleEvaluator";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -35,6 +36,11 @@ const Navbar = () => (
               Evaluate Rules
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/create" className="nav-link">
+              Create Rule
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
@@ -45,7 +51,7 @@ const Dashboard = () => (
   <div className="container mt-4">
     <h1 className="text-center mb-4">Rule Engine Dashboard</h1>
     <div className="row">
-      <div className="col-lg-12 mb-4">
+      <div className="col-lg-4 mb-4">
         <div className="card shadow">
           <div className="card-body text-center">
             <h2 className="card-title">Active Rules</h2>
@@ -56,13 +62,24 @@ const Dashboard = () => (
           </div>
         </div>
       </div>
-      <div className="col-lg-12 mb-4">
+      <div className="col-lg-4 mb-4">
         <div className="card shadow">
           <div className="card-body text-center">
             <h2 className="card-title">Rule Evaluation</h2>
             <p className="card-text">Test your rules with sample data.</p>
             <Link to="/evaluate" className="btn btn-success">
               Evaluate Rules →
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="col-lg-4 mb-4">
+        <div className="card shadow">
+          <div className="card-body text-center">
+            <h2 className="card-title">Create Rule</h2>
+            <p className="card-text">Create new business rules.</p>
+            <Link to="/create" className="btn btn-success">
+              Create Rule →
             </Link>
           </div>
         </div>
@@ -80,7 +97,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/rules" element={<RuleManager mode="manage" />} />
-            <Route path="/evaluate" element={<RuleManager mode="evaluate" />} />
+            <Route path="/evaluate" element={<RuleEvaluator />} />
+            <Route path="/create" element={<RuleEditor />} />
           </Routes>
         </main>
         <ToastContainer />
