@@ -39,7 +39,7 @@ https://zeotap-rule-engine.vercel.app/
 1. Fork and clone the repo using GitHub Desktop or CLI
 
 ```bash
-    git clone https://zeotap-rule-engine.vercel.app/
+    git clone https://github.com/rks-031/rule-engine.git
 ```
 
 2. Install the required dependencies
