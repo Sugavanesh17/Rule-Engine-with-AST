@@ -13,12 +13,7 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(
   helmet({
