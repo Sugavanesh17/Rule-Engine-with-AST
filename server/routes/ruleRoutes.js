@@ -1,4 +1,3 @@
-// routes/ruleRoutes.js
 const express = require("express");
 const router = express.Router();
 const Rule = require("../models/Rule");

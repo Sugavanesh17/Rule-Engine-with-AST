@@ -1,4 +1,3 @@
-// server/services/functionRegistry.js
 class FunctionRegistry {
   constructor() {
     this.functions = new Map();

@@ -1,4 +1,3 @@
-// middleware/validateRequest.js
 const Joi = require("joi");
 const { ruleSchema } = require("../utils/validationSchemas");
 

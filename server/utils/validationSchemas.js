@@ -1,4 +1,3 @@
-// utils/validationSchemas.js
 const Joi = require("joi");
 
 const ruleSchema = Joi.object({

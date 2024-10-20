@@ -1,4 +1,3 @@
-// server/controllers/ruleController.js
 const Rule = require("../models/Rule");
 const RuleEngine = require("../services/ruleEngine");
 
