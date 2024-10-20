@@ -11,6 +11,7 @@ user eligibility based on attributes like age, department, income, spend etc. Th
 Abstract Syntax Tree (AST) to represent conditional rules and allow for dynamic creation,combination, and modification of these rules.
 
 ## Workflow Video:
+https://github.com/user-attachments/assets/f40fa51b-4ff8-4a0a-9cf9-072385c008b5
 
 ## Live Link:
 
