@@ -26,10 +26,6 @@ Abstract Syntax Tree (AST) to represent conditional rules and allow for dynamic 
 
 4. **modify_rule**: Allow for modification of existing rules using additional functionalities. This involves changing operators, operand values, or adding/removing sub-expressions within the AST.
 
-## Workflow Video:
-
-https://github.com/user-attachments/assets/f40fa51b-4ff8-4a0a-9cf9-072385c008b5
-
 
 ## Working with the repository (locally):
 
