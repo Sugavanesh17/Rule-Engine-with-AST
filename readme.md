@@ -30,16 +30,13 @@ Abstract Syntax Tree (AST) to represent conditional rules and allow for dynamic 
 
 https://github.com/user-attachments/assets/f40fa51b-4ff8-4a0a-9cf9-072385c008b5
 
-## Live Link:
-
-https://zeotap-rule-engine.vercel.app/
 
 ## Working with the repository (locally):
 
 1. Fork and clone the repo using GitHub Desktop or CLI
 
 ```bash
-    git clone https://github.com/rks-031/rule-engine.git
+    git clone https://github.com/Sugavanesh17/Rule-Engine-with-AST.git
 ```
 
 2. Install the required dependencies
@@ -67,4 +64,4 @@ https://zeotap-rule-engine.vercel.app/
 
 ## Project Maintainer:
 
-`Rajnish Kumar Singh`
+`Sugvanaeshwaran`
